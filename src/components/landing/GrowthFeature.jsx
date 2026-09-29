@@ -1,7 +1,6 @@
-import { images } from '../../assets/landing/images'
+import { images, showcaseOrnaments } from '../../assets/landing/images'
 import { growthSection } from '../../data/landingContent'
 import ProgressBar from './ProgressBar'
-import { SpringAccent } from './ShapeSprite'
 
 /** Renders a stat in its final form; useLandingAnimations counts it up on scroll. */
 function formatStat({ target, divisor, suffix }) {
@@ -40,13 +39,14 @@ export default function GrowthFeature() {
             <div className="showcase-box">
               <div className="showcase-arch-bg" />
               <img
-                src={images.student}
+                src={images.heroStudent}
                 alt="Student working through a ByteSpace course"
                 className="showcase-student-img"
               />
 
               <div className="ui-card showcase-badge-card1 float-badge-1">
                 <img src={images.course1} alt="" className="badge-mini-thumb" />
+
                 <div>
                   <h5 className="badge-mini-title">{showcase.badge.title}</h5>
                   <span className="badge-mini-author">{showcase.badge.author}</span>
@@ -59,10 +59,10 @@ export default function GrowthFeature() {
                 <ProgressBar initial={55} trackMargin={6} />
               </div>
 
-              <SpringAccent
-                width={80}
-                height={90}
-                className="showcase-spring-accent float-anim-1"
+              <img
+                className="showcase-ornament showcase-ornament-1 float-anim-1"
+                src={showcaseOrnaments.growth}
+                alt=""
               />
             </div>
           </div>

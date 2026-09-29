@@ -1,3 +1,4 @@
+import { images } from '../../assets/landing/images'
 import { testimonialsSection } from '../../data/landingContent'
 
 export default function TestimonialsSection() {
@@ -15,9 +16,12 @@ export default function TestimonialsSection() {
           {testimonialsSection.testimonials.map((testimonial) => (
             <article className="testimonial-card" key={testimonial.name}>
               <div className="user-profile-row">
-                <div className="user-avatar-circle" aria-hidden="true">
-                  {testimonial.initial}
-                </div>
+                <img
+                  className="user-avatar-circle"
+                  src={images[testimonial.image]}
+                  alt=""
+                  aria-hidden="true"
+                />
                 <div>
                   <h4 className="user-name">{testimonial.name}</h4>
                   <span className="user-role">{testimonial.role}</span>

@@ -588,8 +588,11 @@ html {
 
 .avatar-strip-img {
     height: 38px;
-    border-radius: 20px;
+    width: 38px;
+    border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--color-card-bg);
 }
 
 .avatar-badge {
@@ -603,6 +606,36 @@ html {
 }
 
 /* 3D Shapes */
+
+/* The design renders the ornaments as transparent 3D images placed at fixed
+   offsets inside a 1440px-wide frame, several bleeding off the edge. The frame
+   matches that width and lets the percentage offsets carry the composition
+   down to narrower viewports, with overflow clipped at the section edge. */
+.ornament-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.ornament {
+    position: absolute;
+    max-width: none;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.14));
+}
+
+/* Below the design width the ornaments shrink proportionally so the fixed px
+   sizes stop crowding the content, and drift more gently. */
+@media (max-width: 1024px) {
+    .ornament {
+        transform-origin: center;
+    }
+}
+
 .floating-accent {
     position: absolute;
     pointer-events: none;
@@ -610,41 +643,14 @@ html {
     filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.2));
 }
 
-.shape-spring-lime { top: 25%; left: 4%; }
-.shape-ribbon-white { top: 50%; left: 12%; }
-.shape-torus-white { bottom: 12%; left: 3%; }
-.shape-cylinder-lime { top: 24%; right: 4%; }
-.shape-pyramid-white { top: 48%; right: 12%; }
-.shape-coil-white { bottom: 14%; right: 4%; }
-
-.torus-3d {
-    width: 90px;
-    height: 90px;
-    border: 24px solid #ffffff;
-    border-radius: 50%;
-    transform: rotateX(55deg) rotateY(-20deg);
-}
-
-.cylinder-3d {
-    width: 75px;
-    height: 120px;
-    background: linear-gradient(90deg, #d8ff26 0%, #b5e600 50%, #99c200 100%);
-    border-radius: 38px / 20px;
-    transform: rotate(22deg);
-}
-
-.pyramid-3d {
-    width: 0;
-    height: 0;
-    border-left: 45px solid transparent;
-    border-right: 45px solid transparent;
-    border-bottom: 75px solid #ffffff;
-    transform: rotate(15deg) skewX(-10deg);
-}
-
 /* Float Keyframes */
 @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-16px); } }
 @keyframes floatReverse { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(16px); } }
+
+/* Ornaments driven by the hero scroll parallax let GSAP own `transform`, so
+   their idle float keyframes are suppressed to avoid both writing the same
+   property on every frame. */
+.ornament[data-parallax] { animation: none; }
 
 .float-anim-1 { animation: floatSlow 6s ease-in-out infinite; }
 .float-anim-2 { animation: floatReverse 7s ease-in-out infinite; }
@@ -881,7 +887,16 @@ html {
 
 .mini-avatar-stack img {
     height: 28px;
-    border-radius: 14px;
+    width: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* The portraits overlap so the strip reads as a stack rather than a row. */
+.mini-avatar-stack img + img,
+.avatar-strip-img + .avatar-strip-img {
+    margin-left: -12px;
 }
 
 .mini-badge {
@@ -1113,19 +1128,22 @@ html {
     margin-top: 6px;
 }
 
-.showcase-spring-accent {
+/* The single 3D ring that overlaps each showcase box. Both are the same
+   render at the same 216px size measured from Figma (`34:982` / `34:1007`);
+   the growth box sits it top-right and the creator box bottom-left. */
+.showcase-ornament {
     position: absolute;
-    top: 10%;
-    right: -10%;
+    width: 216px;
+    height: 216px;
+    max-width: none;
     z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.14));
 }
 
-.showcase-spring-accent-left {
-    position: absolute;
-    top: 40%;
-    right: -5%;
-    z-index: 5;
-}
+.showcase-ornament-1 { top: 12%; right: -6%; }
+
+.showcase-ornament-2 { bottom: 8%; left: -6%; }
 
 /* Revenue Badges */
 .revenue-badge {
@@ -1295,9 +1313,9 @@ html {
 .user-avatar-circle {
     width: 48px;
     height: 48px;
-    background: var(--color-accent-lime);
-    color: var(--color-text-dark);
     border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
     font-weight: 800;
     font-size: 1.2rem;
     display: flex;

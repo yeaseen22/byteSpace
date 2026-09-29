@@ -1,8 +1,7 @@
-import { images } from '../../assets/landing/images'
+import { images, showcaseOrnaments } from '../../assets/landing/images'
 import { creatorSection } from '../../data/landingContent'
 import AvatarStack from './AvatarStack'
 import Icon from './Icon'
-import { SpringAccent } from './ShapeSprite'
 
 export default function CreatorFeature() {
   const { heading, description, checks, revenueBadges, studentsCard } = creatorSection
@@ -15,7 +14,7 @@ export default function CreatorFeature() {
             <div className="showcase-box">
               <div className="showcase-soft-glow" />
               <img
-                src={images.creator}
+                src={images.growthIllustration}
                 alt="Creator publishing a course on ByteSpace"
                 className="showcase-creator-img"
               />
@@ -37,10 +36,10 @@ export default function CreatorFeature() {
                 <AvatarStack badge={studentsCard.badge} className="showcase-avatar-stack" />
               </div>
 
-              <SpringAccent
-                width={80}
-                height={90}
-                className="showcase-spring-accent-left float-anim-2"
+              <img
+                className="showcase-ornament showcase-ornament-2 float-anim-2"
+                src={showcaseOrnaments.creator}
+                alt=""
               />
             </div>
           </div>

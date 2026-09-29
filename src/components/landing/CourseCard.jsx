@@ -1,4 +1,4 @@
-import { images } from '../../assets/landing/images'
+import { courseAvatars, images } from '../../assets/landing/images'
 import Icon from './Icon'
 
 export default function CourseCard({ course }) {
@@ -31,7 +31,14 @@ export default function CourseCard({ course }) {
               <Icon name="fa-chart-simple" /> {course.level}
             </span>
             <div className="mini-avatar-stack">
-              <img src={images.avatars} alt="" />
+              {courseAvatars.map((src, index) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt=""
+                  style={{ zIndex: courseAvatars.length - index }}
+                />
+              ))}
               <span className="mini-badge">{course.learners}</span>
             </div>
           </div>

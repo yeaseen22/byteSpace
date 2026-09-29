@@ -1,23 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { images } from '../../assets/landing/images'
+import { heroOrnaments, images } from '../../assets/landing/images'
 import { hero, navLinks } from '../../data/landingContent'
 import AvatarStack from './AvatarStack'
 import BrandLogo from './BrandLogo'
 import Icon from './Icon'
 import MagneticButton from './MagneticButton'
+import OrnamentFrame from './OrnamentFrame'
 import ProgressBar from './ProgressBar'
-import ShapeSprite, { SpringAccent } from './ShapeSprite'
-
-const heroAccents = [
-  { position: 'shape-spring-lime', anim: 'float-anim-1', node: <SpringAccent /> },
-  { position: 'shape-ribbon-white', anim: 'float-anim-2', node: <ShapeSprite shape="ribbon" /> },
-  { position: 'shape-torus-white', anim: 'float-anim-3', node: <ShapeSprite shape="torus" /> },
-  { position: 'shape-cylinder-lime', anim: 'float-anim-2', node: <ShapeSprite shape="cylinder" /> },
-  { position: 'shape-pyramid-white', anim: 'float-anim-1', node: <ShapeSprite shape="pyramid" /> },
-  { position: 'shape-coil-white', anim: 'float-anim-3', node: <ShapeSprite shape="coil" /> },
-]
 
 function CourseSearch() {
   const [query, setQuery] = useState('')
@@ -105,15 +96,7 @@ export default function HeroSection() {
     <section className="hero-section" id="home">
       <div className="grid-overlay" />
 
-      {heroAccents.map((accent) => (
-        <div
-          key={accent.position}
-          className={`floating-accent ${accent.position} ${accent.anim}`}
-          aria-hidden="true"
-        >
-          {accent.node}
-        </div>
-      ))}
+      <OrnamentFrame ornaments={heroOrnaments} className="hero-ornaments" />
 
       <div className="site-container">
         <nav className="navbar" id="main-nav">
@@ -168,7 +151,7 @@ export default function HeroSection() {
           <div className="arch-backdrop" />
 
           <div className="student-wrapper">
-            <img src={images.student} alt="Smiling student holding a laptop" className="student-img" />
+            <img src={images.heroStudent} alt="Smiling student holding a laptop" className="student-img" />
           </div>
 
           <div className="ui-card card-courses-info float-badge-1">

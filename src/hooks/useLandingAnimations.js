@@ -83,12 +83,12 @@ export default function useLandingAnimations(rootRef) {
         .from('.card-progress-info', { x: 60, opacity: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.7')
         .from('.card-happy-students', { y: 40, opacity: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.6')
 
-      gsap.from('.floating-accent', {
+      gsap.from('.ornament', {
         scale: 0,
         opacity: 0,
         duration: 1.2,
         ease: 'elastic.out(1, 0.5)',
-        stagger: 0.15,
+        stagger: 0.12,
         delay: 0.5,
       })
 
@@ -242,19 +242,18 @@ export default function useLandingAnimations(rootRef) {
         })
       }
 
-      // ── Hero parallax, scoped so the banner accents keep their float keyframes
+      // ── Hero parallax ──────────────────────────────────────────────────────
+      // Only the ornaments tagged with `data-parallax` move, and their CSS
+      // float keyframes are disabled for them so GSAP owns the transform
+      // outright. Without that, the keyframes and the scroll tween would
+      // both write `transform` and the scroll value would win at every frame.
       const hero = root.querySelector('.hero-section')
       if (hero) {
-        const parallax = [
-          { target: '.shape-spring-lime', scrub: 1.5, to: { y: -120 } },
-          { target: '.shape-cylinder-lime', scrub: 2, to: { y: -80, rotate: 30 } },
-          { target: '.shape-torus-white', scrub: 1, to: { y: -60, rotate: -45 } },
-        ]
-
-        parallax.forEach(({ target, scrub, to }) => {
-          gsap.to(hero.querySelector(target), {
-            scrollTrigger: { trigger: hero, scrub, start: 'top top', end: 'bottom top' },
-            ...to,
+        hero.querySelectorAll('.ornament[data-parallax]').forEach((el) => {
+          gsap.to(el, {
+            scrollTrigger: { trigger: hero, scrub: 1.5, start: 'top top', end: 'bottom top' },
+            y: Number(el.dataset.parallax),
+            rotate: el.dataset.parallax === '-80' ? 30 : 0,
             ease: 'none',
           })
         })
