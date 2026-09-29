@@ -1,46 +1,50 @@
 import { testimonials } from '../../data/content'
 import Container from '../ui/Container'
-import SectionHeading from '../ui/SectionHeading'
+
+const avatarTones = [
+  'from-blue-600 to-[#7F30F7]',
+  'from-lime-500 to-lime-400',
+  'from-[#424348] to-[#4B4C53]',
+]
 
 export default function Testimonials() {
   return (
-    <section className="py-20 sm:py-28">
+    <section className="bg-surface-2 py-20 lg:py-24">
       <Container>
-        <SectionHeading
-          eyebrow="Testimonials"
-          title="Loved by teams that ship"
-          description="Thousands of product teams rely on byteSpace every day to keep work moving."
-        />
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
+          <div>
+            <h2 className="max-w-[577px] font-display text-h2 font-semibold text-ink-deep">{testimonials.heading}</h2>
+            <p className="mt-6 max-w-[580px] text-lg leading-[29px] text-[#4F4F4F]">{testimonials.body}</p>
+          </div>
 
-        <div className="mt-16 grid gap-5 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <figure
-              key={testimonial.name}
-              className="flex h-full flex-col rounded-2xl border border-ink-700 bg-ink-800/40 p-6"
-            >
-              <div className="flex gap-1" aria-label="Rated 5 out of 5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <svg key={i} viewBox="0 0 20 20" className="h-4 w-4 fill-accent-400" aria-hidden="true">
-                    <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
-                  </svg>
-                ))}
-              </div>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.items.map((item, i) => (
+              <li key={item.name}>
+                <figure className="card flex h-full flex-col border border-surface-4 p-6">
+                  <span
+                    className={`grid h-20 w-20 shrink-0 place-items-center rounded-full bg-gradient-to-br ${
+                      avatarTones[i % avatarTones.length]
+                    } font-display text-h4 font-semibold text-white`}
+                    aria-hidden="true"
+                  >
+                    {item.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
+                  </span>
 
-              <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-ink-200">
-                &ldquo;{testimonial.quote}&rdquo;
-              </blockquote>
+                  <figcaption className="mt-5">
+                    <p className="font-display text-h4 font-semibold leading-[24px] text-ink">{item.name}</p>
+                    <p className="mt-1 text-lg leading-[29px] text-blue-600">{item.role}</p>
+                  </figcaption>
 
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-ink-700 pt-5">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-ink-600 to-ink-700 text-xs font-semibold text-ink-100">
-                  {testimonial.initials}
-                </span>
-                <div>
-                  <p className="text-sm font-medium text-ink-100">{testimonial.name}</p>
-                  <p className="text-xs text-ink-400">{testimonial.role}</p>
-                </div>
-              </figcaption>
-            </figure>
-          ))}
+                  <blockquote className="mt-4 text-lg leading-[29px] text-[#4F4F4F]">
+                    &ldquo;{item.quote}&rdquo;
+                  </blockquote>
+                </figure>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>

@@ -1,123 +1,130 @@
-import Button from '../ui/Button'
+import { useState } from 'react'
+
+import { hero } from '../../data/content'
+import heroImage from '../../assets/figma/hero-illustration.jpg'
 import Container from '../ui/Container'
+import Icon from '../ui/Icon'
 
-const collaborators = [
-  { name: 'Amara', initials: 'AO', color: 'from-brand-400 to-brand-600' },
-  { name: 'Daniel', initials: 'DR', color: 'from-accent-400 to-accent-500' },
-  { name: 'Priya', initials: 'PN', color: 'from-ink-300 to-ink-500' },
-  { name: 'Marcus', initials: 'MK', color: 'from-brand-300 to-accent-500' },
-]
+const avatars = ['SM', 'JL', 'AB', 'RK', 'DM', 'PS', 'TN', '2K+']
 
-function HeroPreview() {
+function AvatarStack() {
   return (
-    <div className="relative mx-auto mt-16 max-w-5xl">
-      <div
-        aria-hidden="true"
-        className="absolute -inset-x-8 -top-10 bottom-0 rounded-[2.5rem] bg-gradient-to-r from-brand-500/20 via-accent-500/10 to-transparent blur-3xl"
-      />
-
-      <div className="relative overflow-hidden rounded-2xl border border-ink-700 bg-ink-800/60 shadow-2xl shadow-ink-950/60 backdrop-blur">
-        <div className="flex items-center gap-2 border-b border-ink-700 bg-ink-900/60 px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-          <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-          <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-          <span className="ml-3 font-mono text-xs text-ink-500">byteSpace.app/workspace</span>
-        </div>
-
-        <div className="grid gap-0 sm:grid-cols-[180px_1fr]">
-          <div className="hidden flex-col gap-3 border-r border-ink-700 p-4 sm:flex">
-            {['Overview', 'Issues', 'Docs', 'Roadmap'].map((item, i) => (
-              <div
-                key={item}
-                className={`rounded-lg px-3 py-2 text-xs ${
-                  i === 1 ? 'bg-brand-500/15 text-brand-300' : 'text-ink-400'
-                }`}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-
-          <div className="p-4 sm:p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="h-3 w-32 rounded bg-ink-700" />
-              <div className="h-6 w-16 rounded-md bg-brand-500/25" />
-            </div>
-            <ul className="space-y-2.5">
-              {[
-                { w: 'w-3/4', t: 'bg-brand-400/20' },
-                { w: 'w-1/2', t: 'bg-ink-700' },
-                { w: 'w-2/3', t: 'bg-ink-700' },
-                { w: 'w-1/3', t: 'bg-accent-500/20' },
-              ].map((row) => (
-                <li key={row.w} className="flex items-center gap-3 rounded-lg border border-ink-700/70 bg-ink-900/40 p-3">
-                  <span className="h-3.5 w-3.5 rounded border border-ink-600" />
-                  <span className={`h-2.5 rounded ${row.t} ${row.w}`} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+    <div className="flex -space-x-[18px]">
+      {avatars.map((a, i) => (
+        <span
+          key={a}
+          className={`grid h-[43px] w-[43px] place-items-center rounded-full text-xs font-bold ring-2 ring-white ${
+            i === 7 ? 'bg-blue-600 text-white' : 'text-white'
+          }`}
+          style={{
+            backgroundColor: i === 7 ? undefined : ['#003BE2', '#D4FB20', '#7F30F7', '#424348', '#C1E338', '#E5E6E8', '#4B4C53'][i % 7],
+            color: i === 1 || i === 4 ? '#242528' : '#FFFFFF',
+          }}
+        >
+          {a}
+        </span>
+      ))}
     </div>
   )
 }
 
-export default function Hero() {
+function FloatingCard({ className, children }) {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,116,246,0.16),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
+    <div className={`absolute rounded-2xl bg-white p-5 shadow-xl shadow-blue-900/20 ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+function ProgressCard() {
+  return (
+    <FloatingCard className="left-0 top-24 w-[232px] lg:left-4">
+      <p className="text-sm font-medium leading-[17px] text-ink">Learning Progress</p>
+      <p className="mt-2 font-display text-5xl font-semibold leading-[58px] text-ink">55%</p>
+      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-4">
+        <div className="h-full w-[56%] rounded-full bg-blue-600" />
       </div>
+    </FloatingCard>
+  )
+}
 
-      <Container className="text-center">
-        <a href="#features" className="eyebrow transition-colors hover:border-ink-500 hover:text-ink-100">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent-400" />
-          byteSpace 2.0 is here
-          <span aria-hidden="true" className="text-ink-500">&rarr;</span>
-        </a>
+function StudentsCard() {
+  return (
+    <FloatingCard className="right-0 top-8 w-[258px] lg:right-2">
+      <p className="text-base font-medium leading-[19px] text-ink">Happy Students</p>
+      <p className="mt-1.5 flex items-center gap-1 text-xs leading-[19px] text-muted">
+        4.5 (240)
+        <Icon name="star" filled className="h-4 w-4 text-lime-500" />
+      </p>
+      <div className="mt-3">
+        <AvatarStack />
+      </div>
+    </FloatingCard>
+  )
+}
 
-        <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl lg:leading-[1.05]">
-          <span className="gradient-text">The workspace where great teams ship faster</span>
-        </h1>
+function CategoryChip() {
+  return (
+    <FloatingCard className="bottom-6 left-6 w-[208px] lg:left-16">
+      <p className="text-base font-medium leading-[19px] text-ink">UI/UX Design</p>
+      <p className="mt-1.5 text-xs leading-[19px] text-muted">
+        200 Courses <span className="px-1 text-[10px]">&bull;</span> 1000+ Students
+      </p>
+    </FloatingCard>
+  )
+}
 
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-pretty text-ink-300 sm:text-lg">
-          Plan, build, and track every piece of work in one place. byteSpace gives your team a single
-          source of truth, real-time collaboration, and the speed to ship on schedule.
-        </p>
+export default function Hero() {
+  const [query, setQuery] = useState('')
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button to="/signup" size="lg" className="w-full sm:w-auto">
-            Get started free
-            <span aria-hidden="true">&rarr;</span>
-          </Button>
-          <Button href="#product" variant="outline" size="lg" className="w-full sm:w-auto">
-            Watch the tour
-          </Button>
-        </div>
+  return (
+    <section className="relative overflow-hidden bg-blue-600">
+      <div aria-hidden="true" className="grid-lines absolute inset-0" />
 
-        <p className="mt-4 text-xs text-ink-500">Free forever for up to 5 members. No credit card required.</p>
+      <div className="relative pt-[220px] pb-0 lg:pt-[240px]">
+        <Container className="text-center">
+          <h1 className="mx-auto max-w-[935px] font-display text-h1 font-semibold text-white">{hero.heading}</h1>
+          <p className="mx-auto mt-6 max-w-[819px] text-lg leading-[29px] text-surface-5">{hero.subheading}</p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-          <div className="flex -space-x-2">
-            {collaborators.map((person) => (
-              <span
-                key={person.initials}
-                title={person.name}
-                className={`grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br ${person.color} text-xs font-semibold text-ink-950 ring-2 ring-ink-900`}
-              >
-                {person.initials}
-              </span>
-            ))}
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="mx-auto mt-10 flex w-full max-w-[581px] items-center gap-3"
+            role="search"
+          >
+            <div className="flex h-[52px] flex-1 items-center gap-2 rounded-full bg-white pl-6 pr-2">
+              <Icon name="search" className="h-4 w-4 shrink-0 text-muted" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={hero.searchPlaceholder}
+                aria-label={hero.searchPlaceholder}
+                className="h-full w-full bg-transparent text-lg text-ink outline-none placeholder:text-muted"
+              />
+            </div>
+            <button type="submit" className="btn-lime h-[46px] shrink-0">
+              {hero.searchLabel}
+            </button>
+          </form>
+        </Container>
+
+        <div className="relative mx-auto mt-10 max-w-[900px] px-6 lg:mt-6">
+          <img
+            src={heroImage}
+            alt="A student progressing through a ByteSpace course"
+            width={578}
+            height={541}
+            className="mx-auto w-full max-w-[578px] select-none"
+            draggable="false"
+          />
+
+          <div className="pointer-events-none absolute inset-0 hidden md:block">
+            <ProgressCard />
+            <StudentsCard />
+            <CategoryChip />
           </div>
-          <p className="text-sm text-ink-400">
-            Trusted by <span className="font-medium text-ink-200">12,000+</span> teams worldwide
-          </p>
         </div>
-
-        <HeroPreview />
-      </Container>
+      </div>
     </section>
   )
 }

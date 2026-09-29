@@ -1,31 +1,28 @@
 import { Link } from 'react-router-dom'
 
-const variants = {
-  primary:
-    'bg-brand-500 text-white shadow-lg shadow-brand-500/25 hover:bg-brand-400 hover:shadow-brand-400/30',
-  secondary: 'bg-ink-100 text-ink-950 hover:bg-white',
-  outline: 'border border-ink-600 text-ink-100 hover:border-ink-500 hover:bg-ink-800',
-  ghost: 'text-ink-300 hover:bg-ink-800 hover:text-ink-100',
+const styles = {
+  lime: 'bg-lime-400 text-ink hover:bg-lime-500',
+  blue: 'bg-blue-600 text-white hover:opacity-90',
+  outline: 'border border-ink/20 text-ink hover:bg-surface-4',
+  ghost: 'text-ink hover:bg-surface-4',
+  onBlue: 'border border-white/40 text-white hover:bg-white/10',
 }
 
 const sizes = {
-  sm: 'h-9 px-4 text-sm',
-  md: 'h-11 px-5 text-sm',
-  lg: 'h-12 px-7 text-base',
+  sm: 'h-11 px-6 text-base',
+  md: 'h-[46px] px-6 text-lg',
+  lg: 'h-14 px-8 text-lg',
 }
-
-const base =
-  'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:pointer-events-none disabled:opacity-60'
 
 /**
  * @param {object} props
- * @param {'primary'|'secondary'|'outline'|'ghost'} [props.variant]
+ * @param {'lime'|'blue'|'outline'|'ghost'|'onBlue'} [props.variant]
  * @param {'sm'|'md'|'lg'} [props.size]
- * @param {string} [props.to] Renders a react-router <Link> when provided.
- * @param {string} [props.href] Renders an anchor when provided.
+ * @param {string} [props.to]   renders a react-router <Link>
+ * @param {string} [props.href] renders an anchor
  */
 export default function Button({
-  variant = 'primary',
+  variant = 'lime',
   size = 'md',
   to,
   href,
@@ -33,7 +30,7 @@ export default function Button({
   children,
   ...props
 }) {
-  const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`
+  const classes = `inline-flex items-center justify-center gap-2 rounded-full font-body font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 ${styles[variant]} ${sizes[size]} ${className}`
 
   if (to) {
     return (
@@ -52,7 +49,7 @@ export default function Button({
   }
 
   return (
-    <button className={classes} {...props}>
+    <button type="button" className={classes} {...props}>
       {children}
     </button>
   )

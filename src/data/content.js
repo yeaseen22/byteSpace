@@ -1,163 +1,191 @@
 export const site = {
-  name: 'byteSpace',
-  tagline: 'Build faster, together',
+  name: 'ByteSpace',
+  tagline: 'Get Access to Hundreds Courses Available',
   description:
-    'byteSpace is the collaborative workspace where product teams plan, build, and ship software in one place.',
+    'ByteSpace is a learning and teaching platform for creators and learners, with hundreds of courses across design, development, business and the arts.',
 }
 
 export const navLinks = [
-  { label: 'Features', href: '#features' },
-  { label: 'Product', href: '#product' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Home', href: '/' },
+  { label: 'Courses', href: '#courses' },
+  { label: 'Creators', href: '#creators' },
 ]
 
-export const features = [
-  {
-    title: 'Real-time collaboration',
-    description:
-      'Edit docs, specs, and designs with your team. Every change syncs instantly with live cursors and comments.',
-    icon: 'users',
-  },
-  {
-    title: 'Built-in issue tracking',
-    description:
-      'Turn ideas into tasks in one click. Prioritise, assign, and ship without leaving the workspace.',
-    icon: 'check',
-  },
-  {
-    title: 'Developer friendly',
-    description:
-      'A first-class API, webhooks, and Git sync. Connect your stack in minutes, not sprints.',
-    icon: 'code',
-  },
-  {
-    title: 'Insightful analytics',
-    description:
-      'See velocity, burndown, and cycle time in real time so you know exactly where work stands.',
-    icon: 'chart',
-  },
-  {
-    title: 'Automations',
-    description:
-      'Build rules that move work forward. Route issues, notify channels, and close stale tasks automatically.',
-    icon: 'bolt',
-  },
-  {
-    title: 'Enterprise security',
-    description:
-      'SOC 2 Type II, SSO, SCIM provisioning, and granular permissions your security team will love.',
-    icon: 'shield',
-  },
+export const hero = {
+  heading: 'Get Access to Hundreds Courses Available',
+  subheading:
+    'Unlock your creativity, gain valuable knowledge, and grow your business with our wide range of courses.',
+  searchPlaceholder: 'Course, topic, creator',
+  searchLabel: 'Search',
+}
+
+export const partners = ['NEXORA', 'Vertex', 'Lumina', 'Cloudbase', 'Orbital']
+
+export const categories = {
+  eyebrow: 'Featured Categories',
+  heading: 'Innovative Paths to Knowledge',
+  viewMore: 'View More',
+  items: [
+    { label: 'Design', icon: 'design' },
+    { label: 'Development', icon: 'development' },
+    { label: 'IT & Software', icon: 'software' },
+    { label: 'Business', icon: 'business' },
+    { label: 'Marketing', icon: 'marketing' },
+    { label: 'Photography', icon: 'photography' },
+  ],
+}
+
+export const passion = {
+  heading: 'Discover Your Passion, Build Your Skills',
+  body: 'At Bytespace Courses, we bring you closer to life-changing knowledge. Explore a variety of courses across different fields, from technology to the arts, and make a difference in your career and life.',
+}
+
+export const categoryFilters = [
+  [
+    'Featured',
+    'Music',
+    'Drawing & Painting',
+    'Marketing',
+    'Animation',
+    'Social Media',
+    'UI/UX Design',
+    'Creative Marketing',
+  ],
+  [
+    'Digital Illustration',
+    'Film & Video',
+    'Crafts',
+    'Freelance & Entrepreneurship',
+    'Graphic Design',
+    'Photography',
+  ],
+  ['Productivity', 'Web Development', 'Data Science', 'Cooking'],
 ]
 
-export const stats = [
-  { value: '12k+', label: 'teams shipping with byteSpace' },
-  { value: '99.99%', label: 'uptime over the last 12 months' },
-  { value: '4.9/5', label: 'average customer rating' },
-  { value: '38%', label: 'faster delivery cycles' },
+export const courses = [
+  { title: 'Learn Figma from Basic' },
+  { title: 'Build Digital Asset' },
+  { title: 'the Power of Big Data' },
+  { title: 'Balancing Productivity and Self-Care' },
+  { title: 'Mastering Money Management' },
+  { title: 'From Idea to Startup Success' },
 ]
 
-export const testimonials = [
-  {
-    quote:
-      'byteSpace replaced three tools for us. Our team ships faster and nobody misses a deadline in the channel anymore.',
-    name: 'Amara Osei',
-    role: 'VP Engineering, Northwind',
-    initials: 'AO',
-  },
-  {
-    quote:
-      'The migration took an afternoon. By the end of the week the whole product org was living in byteSpace.',
-    name: 'Daniel Reyes',
-    role: 'Head of Product, Lumen Labs',
-    initials: 'DR',
-  },
-  {
-    quote:
-      'It is the rare tool that our engineers and our designers both genuinely enjoy using every day.',
-    name: 'Priya Nair',
-    role: 'Design Lead, Corvus',
-    initials: 'PN',
-  },
-]
+export const courseMeta = {
+  lessons: '17 Lessons',
+  duration: '2 hours 16 mins',
+  comments: '59 Comments',
+  author: 'by purepearl studio',
+  level: 'Beginner',
+  students: '26+',
+  price: '$25',
+  period: '/lifetime',
+  rating: '4.5',
+}
 
-export const plans = [
-  {
-    name: 'Starter',
-    description: 'For small teams getting organised.',
-    price: '$0',
-    period: 'forever',
-    cta: 'Start for free',
-    featured: false,
-    features: [
-      'Up to 5 members',
-      'Unlimited docs and issues',
-      '10 GB file storage',
-      'Community support',
-    ],
-  },
-  {
-    name: 'Pro',
-    description: 'For teams that ship every week.',
-    price: '$10',
-    period: 'per user / month',
-    cta: 'Start 14-day trial',
-    featured: true,
-    features: [
-      'Unlimited members',
-      'Real-time collaboration',
-      'Automations and workflows',
-      'API access and webhooks',
-      'Priority support',
-    ],
-  },
-  {
-    name: 'Enterprise',
-    description: 'For organisations with complex needs.',
-    price: 'Custom',
-    period: 'annual billing',
-    cta: 'Talk to sales',
-    featured: false,
-    features: [
-      'Everything in Pro',
-      'SSO and SCIM provisioning',
-      'Audit logs and data residency',
-      'Dedicated success manager',
-      'Custom SLA',
-    ],
-  },
-]
+export const learningPaths = {
+  heading: 'Explore Diverse Learning Paths at Bytespace',
+  body: 'At Bytespace, we believe in empowering individuals through knowledge. Our diverse range of courses spans various fields, ensuring there is something for everyone. Unleash your potential and explore our carefully curated categories.',
+}
 
-export const faqs = [
-  {
-    question: 'Can I import from other tools?',
-    answer:
-      'Yes. Our importers support Jira, Linear, Trello, Notion, and Asana. You can also use our API to migrate anything custom.',
+export const growth = {
+  heading: 'Your Path to Professional Growth Starts Here!',
+  body: 'Explore our curated selection of courses tailored to enhance your capabilities and accelerate your career journey. Whether you are looking to sharpen specific skills, gain industry expertise, or embark on a new career path entirely, we have the resources you need.',
+  stats: [
+    { value: '12K', label: 'Students' },
+    { value: '70+', label: 'Courses' },
+    { value: '16', label: 'Creators' },
+  ],
+}
+
+export const creator = {
+  heading: 'Create & Manage Courses Easily.',
+  body: 'ByteSpace supports individuals or entities in the creation, publication, and administration of educational courses.',
+  features: [
+    'Share Your Expertise',
+    'Monetize Your Passion',
+    'Flexibility and Autonomy',
+    'Build a Community',
+  ],
+}
+
+export const cta = {
+  heading: 'Unlock Your Potential as a Creator with ByteSpace',
+  body: 'Experience the collaboration of numerous creators and an expanding selection of courses. Register now and become a part of a community comprising over 10,000 local and international creators. Utilize our Course Editor, and showcase your expertise by publishing your finest course on the ByteSpace Course Library.',
+  button: 'Join as Creator',
+}
+
+export const testimonials = {
+  heading: 'Discover What Our Community Is Saying',
+  body: 'At ByteSpace, our vibrant community of learners and creators is at the heart of what we do. Hear directly from those who have experienced the transformative journey of learning and creating on our platform. Explore testimonials that reflect the diverse perspectives of enthusiastic learners and accomplished creators.',
+  items: [
+    {
+      name: 'Sarah M.',
+      role: 'Enthusiastic Learner',
+      quote:
+        'ByteSpace has transformed my approach to learning. The diverse range of courses and the quality of content provided by creators have exceeded my expectations. The platform truly fosters a sense of community and lifelong learning.',
+    },
+    {
+      name: 'James L.',
+      role: 'Lifelong Learner',
+      quote:
+        "I've tried several online learning platforms, and ByteSpace stands out for its vibrant community and the variety of courses available. The easy navigation and engaging content make it a go-to platform for continuous skill development.",
+    },
+    {
+      name: 'Alex B.',
+      role: 'Inspired Creator',
+      quote:
+        'As a creator, ByteSpace has been a game-changer for me. The Course Editor is user-friendly, and the support from the community is incredible. It is fulfilling to see my courses making a positive impact on learners globally.',
+    },
+  ],
+}
+
+export const footer = {
+  newsletter: 'Stay Up to date with our latest features and releases by joining our newsletter.',
+  placeholder: 'Enter your email',
+  button: 'Subscribe',
+  consent: 'By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.',
+  columns: [
+    {
+      heading: 'Browse',
+      links: ['Featured Courses', 'Featured Categories', 'Business', 'IT', 'Design', 'Development', 'Marketing', 'Photography', 'Finance', 'Sport'],
+    },
+    {
+      heading: 'Platform',
+      links: ['Become a Creator', 'Affiliate Program', 'Contact', 'Help', 'About'],
+    },
+  ],
+  copyright: '© 2023 ByteSpace. All rights reserved.',
+  legal: ['Privacy Policy', 'Terms of Service', 'Cookies Settings'],
+}
+
+export const auth = {
+  login: {
+    eyebrow: 'Sign In',
+    heading: 'Welcome Back',
+    emailPlaceholder: 'designer@example.com',
+    passwordPlaceholder: '********',
+    button: 'Sign In',
+    divider: 'or',
+    prompt: 'New user?',
+    link: 'Create an account',
+    marketing: {
+      heading: 'Sign in with ease',
+      body: 'Experience a seamless and efficient sign-in process that grants you instant access to a world of knowledge.',
+    },
   },
-  {
-    question: 'Is there a free plan?',
-    answer:
-      'Yes, the Starter plan is free forever for teams of up to five members. No credit card required.',
+  register: {
+    eyebrow: 'Create an Account',
+    heading: 'Welcome to ByteSpace',
+    namePlaceholder: 'Jamie Davis',
+    emailPlaceholder: 'designer@example.com',
+    passwordPlaceholder: '********',
+    button: 'Continue',
+    prompt: 'Already have an account?',
+    link: 'Login',
+    marketing: {
+      heading: 'Sign up and come in',
+      body: 'The registration process is straightforward, uncomplicated, and efficient, allowing users to sign up quickly, easily, and at no cost',
+    },
   },
-  {
-    question: 'How does billing work?',
-    answer:
-      'Pro is billed per member monthly or annually. You can add or remove members at any time and we prorate the difference.',
-  },
-  {
-    question: 'Do you offer discounts for startups or nonprofits?',
-    answer:
-      'We do. Eligible startups get 50% off Pro for the first year, and registered nonprofits receive a permanent discount.',
-  },
-  {
-    question: 'What is your security posture?',
-    answer:
-      'byteSpace is SOC 2 Type II compliant with encryption at rest and in transit. We also support SSO, SCIM, and granular admin controls.',
-  },
-  {
-    question: 'Can I self-host?',
-    answer:
-      'Self-hosting is available on the Enterprise plan. Talk to our sales team about deployment options and pricing.',
-  },
-]
+}

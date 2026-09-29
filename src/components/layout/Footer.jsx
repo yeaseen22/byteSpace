@@ -1,57 +1,50 @@
-import Container from '../ui/Container'
-import { site } from '../../data/content'
+import { useState } from 'react'
 
-const columns = [
-  {
-    title: 'Product',
-    links: ['Features', 'Integrations', 'Changelog', 'Roadmap', 'Pricing'],
-  },
-  {
-    title: 'Company',
-    links: ['About', 'Blog', 'Careers', 'Customers', 'Press kit'],
-  },
-  {
-    title: 'Resources',
-    links: ['Docs', 'API reference', 'Guides', 'Status', 'Support'],
-  },
-  {
-    title: 'Legal',
-    links: ['Privacy', 'Terms', 'Security', 'DPA', 'Cookies'],
-  },
-]
+import { footer } from '../../data/content'
+import { Logo } from './Navbar'
+import Container from '../ui/Container'
 
 export default function Footer() {
-  const year = new Date().getFullYear()
+  const [email, setEmail] = useState('')
 
   return (
-    <footer className="border-t border-ink-700 bg-ink-950">
-      <Container className="py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_2.6fr]">
-          <div>
-            <p className="text-lg font-semibold tracking-tight text-ink-100">{site.name}</p>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-400">{site.description}</p>
-            <div className="mt-6 flex gap-3">
-              {['X', 'GitHub', 'LinkedIn'].map((label) => (
-                <a
-                  key={label}
-                  href="#"
-                  aria-label={label}
-                  className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-xs text-ink-400 transition-colors hover:border-ink-500 hover:text-ink-100"
-                >
-                  {label.slice(0, 2)}
-                </a>
-              ))}
-            </div>
+    <footer className="bg-surface pt-16">
+      <Container>
+        <div className="flex flex-col gap-12 pb-12 lg:flex-row lg:gap-[92px]">
+          <div className="max-w-[528px]">
+            <Logo tone="dark" />
+            <p className="mt-6 text-sm leading-[22px] text-ink">{footer.newsletter}</p>
+
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="mt-6 flex flex-wrap items-center gap-3"
+              aria-label="Newsletter signup"
+            >
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={footer.placeholder}
+                aria-label={footer.placeholder}
+                className="h-[52px] min-w-0 flex-1 rounded-full border border-ink/10 px-6 text-base text-ink outline-none transition-colors placeholder:text-ink/60 focus:border-blue-600"
+              />
+              <button type="submit" className="btn-lime h-[46px] shrink-0">
+                {footer.button}
+              </button>
+            </form>
+
+            <p className="mt-4 max-w-[504px] text-xs leading-[19px] text-ink">{footer.consent}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-            {columns.map((column) => (
-              <div key={column.title}>
-                <p className="text-sm font-medium text-ink-100">{column.title}</p>
+          <div className="grid flex-1 grid-cols-2 gap-8 sm:grid-cols-3">
+            {footer.columns.map((column) => (
+              <div key={column.heading}>
+                <p className="text-base leading-6 text-ink">{column.heading}</p>
                 <ul className="mt-4 space-y-3">
                   {column.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm text-ink-400 transition-colors hover:text-ink-100">
+                      <a href="#" className="text-sm leading-[22px] text-ink transition-opacity hover:opacity-60">
                         {link}
                       </a>
                     </li>
@@ -59,14 +52,35 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
+
+            <div>
+              <p className="text-base leading-6 text-transparent" aria-hidden="true">
+                &nbsp;
+              </p>
+              <ul className="mt-4 space-y-3">
+                {['Development', 'Marketing', 'Photography', 'Finance', 'Sport'].map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-sm leading-[22px] text-ink transition-opacity hover:opacity-60">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-ink-800 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-ink-500">
-            &copy; {year} {site.name}, Inc. All rights reserved.
-          </p>
-          <p className="text-sm text-ink-500">Built with care, shipped every week.</p>
+        <div className="flex flex-col gap-4 border-t border-surface-4 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs leading-[19px] text-ink">{footer.copyright}</p>
+          <ul className="flex flex-wrap gap-6">
+            {footer.legal.map((link) => (
+              <li key={link}>
+                <a href="#" className="text-xs leading-[19px] text-ink transition-opacity hover:opacity-60">
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </footer>
