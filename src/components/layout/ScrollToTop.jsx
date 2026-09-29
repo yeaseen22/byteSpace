@@ -5,7 +5,20 @@ export default function ScrollToTop() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    if (hash) return
+    if (hash) {
+      const id = hash.slice(1)
+      const scrollToTarget = () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+
+      if (document.getElementById(id)) {
+        scrollToTarget()
+      } else {
+        // the target may still be rendering after a route change
+        const frame = requestAnimationFrame(scrollToTarget)
+        return () => cancelAnimationFrame(frame)
+      }
+      return
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname, hash])
 

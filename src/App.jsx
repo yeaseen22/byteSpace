@@ -12,7 +12,7 @@ const authRoutes = ['/login', '/register']
 
 export default function App() {
   const { pathname } = useLocation()
-  const isAuthRoute = authRoutes.includes(pathname)
+  const isAuthRoute = authRoutes.includes(pathname.replace(/\/+$/, ''))
   // the landing page hero is blue, so the transparent header needs light text
   const navTone = pathname === '/' ? 'light' : 'dark'
 
