@@ -36,9 +36,12 @@ function CategoryFilter() {
           {category}
         </button>
       ))}
-      <button type="button" className="category-pill category-pill-more">
+      {/* The design renders "+ More" as a bare text link in brand blue with no
+          pill background, so it scrolls to the category cards rather than
+          acting as another filter option. */}
+      <a className="category-more" href="#categories">
         + More
-      </button>
+      </a>
     </div>
   )
 }

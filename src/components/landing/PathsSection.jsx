@@ -4,7 +4,7 @@ import SectionHeader from './SectionHeader'
 
 export default function PathsSection() {
   return (
-    <section className="paths-section">
+    <section className="paths-section" id="categories">
       <div className="site-container">
         <SectionHeader title={pathsSection.title} subtitle={pathsSection.subtitle} />
 

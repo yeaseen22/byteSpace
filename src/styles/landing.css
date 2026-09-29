@@ -700,43 +700,63 @@ html {
     background: #ffffff;
 }
 
+/* Sizes measured from the design: 43px pill height, 24px radius, 16px
+   horizontal padding, 16px row gap, 16px/500 text (Figma `21:33`-`21:70`). */
 .category-pills {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.75rem;
-    max-width: 960px;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1086px;
     margin: 0 auto 3.5rem auto;
 }
 
 .category-pill {
-    background: #f1f5f9;
-    color: #475569;
+    background: #f5f5f5;
+    color: #4b4c53;
     border: none;
-    padding: 0.65rem 1.35rem;
-    border-radius: var(--radius-pill);
+    height: 43px;
+    padding: 0 1rem;
+    border-radius: 24px;
     font-family: var(--font-primary);
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .category-pill:hover {
-    background: #e2e8f0;
+    background: #ececec;
     color: var(--color-text-dark);
 }
 
 .category-pill.active {
-    background: var(--color-accent-lime);
-    color: var(--color-text-dark);
-    font-weight: 700;
+    background: #d4fa21;
+    color: #242528;
+    font-weight: 500;
 }
 
-.category-pill-more {
-    color: var(--color-bg);
-    font-weight: 700;
-    background: transparent;
+/* "+ More" is a bare text link in the design (Figma `21:73`) — no pill, no
+   fill — so it stays in the row without inheriting the chip treatment. */
+.category-more {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    color: #003be3;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.category-more:hover,
+.category-more:focus-visible {
+    opacity: 0.7;
 }
 
 .category-pill.popping {
