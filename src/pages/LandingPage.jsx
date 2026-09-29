@@ -1,29 +1,31 @@
-import CallToAction from '../components/sections/CallToAction'
-import Categories from '../components/sections/Categories'
-import CategoryFilters from '../components/sections/CategoryFilters'
-import CategoryTiles from '../components/sections/CategoryTiles'
-import CourseGrid from '../components/sections/CourseGrid'
-import Hero from '../components/sections/Hero'
-import Partners from '../components/sections/Partners'
-import Testimonials from '../components/sections/Testimonials'
-import WhyByteSpace from '../components/sections/WhyByteSpace'
-import SectionIntro from '../components/ui/SectionIntro'
-import { learningPaths, passion } from '../data/content'
+import { useRef } from 'react'
+
+import CoursesSection from '../components/landing/CoursesSection'
+import CreatorBanner from '../components/landing/CreatorBanner'
+import CreatorFeature from '../components/landing/CreatorFeature'
+import GrowthFeature from '../components/landing/GrowthFeature'
+import HeroSection from '../components/landing/HeroSection'
+import LogosBanner from '../components/landing/LogosBanner'
+import PathsSection from '../components/landing/PathsSection'
+import SiteFooter from '../components/landing/SiteFooter'
+import TestimonialsSection from '../components/landing/TestimonialsSection'
+import useLandingAnimations from '../hooks/useLandingAnimations'
 
 export default function LandingPage() {
+  const rootRef = useRef(null)
+  useLandingAnimations(rootRef)
+
   return (
-    <>
-      <Hero />
-      <Partners />
-      <SectionIntro heading={passion.heading} body={passion.body} className="pt-20 lg:pt-24" />
-      <Categories />
-      <CategoryFilters />
-      <CourseGrid />
-      <SectionIntro heading={learningPaths.heading} body={learningPaths.body} size="h3" className="pt-8" />
-      <CategoryTiles />
-      <WhyByteSpace />
-      <CallToAction />
-      <Testimonials />
-    </>
+    <div className="landing-page" ref={rootRef}>
+      <HeroSection />
+      <LogosBanner />
+      <CoursesSection />
+      <PathsSection />
+      <GrowthFeature />
+      <CreatorFeature />
+      <CreatorBanner />
+      <TestimonialsSection />
+      <SiteFooter />
+    </div>
   )
 }

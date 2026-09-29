@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import BrandLogo from '../landing/BrandLogo'
 import Container from '../ui/Container'
-import { Logo } from './Navbar'
 
 /**
  * The blue split layout shared by the Login and Register frames in the design:
@@ -14,7 +14,7 @@ export default function AuthLayout({ title, subtitle, children, footer, marketin
 
       <div className="relative h-[120px]">
         <Container className="flex h-full items-center">
-          <Logo tone="light" />
+          <BrandLogo />
         </Container>
       </div>
 

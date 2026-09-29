@@ -1,21 +1,16 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
-import Footer from './components/layout/Footer'
-import Navbar from './components/layout/Navbar'
 import ScrollToTop from './components/layout/ScrollToTop'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import NotFoundPage from './pages/NotFoundPage'
 import RegisterPage from './pages/RegisterPage'
 
-const authRoutes = ['/login', '/register']
-
+/**
+ * Each route owns its own chrome: the landing page renders the hero navbar and
+ * site footer, the auth routes render the shared AuthLayout.
+ */
 export default function App() {
-  const { pathname } = useLocation()
-  const isAuthRoute = authRoutes.includes(pathname.replace(/\/+$/, ''))
-  // the landing page hero is blue, so the transparent header needs light text
-  const navTone = pathname === '/' ? 'light' : 'dark'
-
   return (
     <>
       <ScrollToTop />
@@ -26,8 +21,6 @@ export default function App() {
         Skip to content
       </a>
 
-      {!isAuthRoute ? <Navbar tone={navTone} /> : null}
-
       <main id="main">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -36,8 +29,6 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-
-      {!isAuthRoute ? <Footer /> : null}
     </>
   )
 }
