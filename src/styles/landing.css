@@ -1,0 +1,1558 @@
+/* ==========================================================================
+   ByteSpace landing page stylesheet
+   --------------------------------------------------------------------------
+   Ported 1:1 from the reference build. The class names below are the design's
+   own vocabulary, kept verbatim so the JSX maps 1:1 onto the reference markup.
+
+   Intentional deviations from the reference (bug fixes, desktop unaffected):
+     - `.container` renamed to `.site-container` (collides with the Tailwind
+       `container` utility) and `.pill` to `.category-pill` (defined in
+       index.css for the auth routes).
+     - Base styles are scoped to `.landing-page` instead of `body`, so the
+       /login and /register routes keep their own theme.
+     - `scroll-behavior: smooth` dropped: it fought with Lenis, which already
+       owns scroll easing.
+     - Mobile nav actually opens (the reference toggled a class that had no
+       rule attached, behind a `display: none` button).
+   ========================================================================== */
+
+:root {
+    /* Color Palette */
+    --color-bg: #0348f3;
+    --color-bg-gradient: linear-gradient(180deg, #0549f6 0%, #0236c5 100%);
+    --color-accent-lime: #ccff00;
+    --color-accent-lime-hover: #b8e600;
+    --color-text-white: #ffffff;
+    --color-text-muted: rgba(255, 255, 255, 0.82);
+    --color-card-bg: #ffffff;
+    --color-text-dark: #0f172a;
+    --color-text-gray: #64748b;
+    --color-border-light: #e2e8f0;
+    --color-grid-line: rgba(255, 255, 255, 0.08);
+
+    /* Fonts */
+    --font-primary: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    
+    /* Shadows & Radii */
+    --radius-pill: 9999px;
+    --radius-card: 20px;
+    --shadow-card: 0 15px 35px -10px rgba(0, 18, 70, 0.08), 0 0 1px rgba(0,0,0,0.06);
+    --shadow-btn: 0 10px 25px -5px rgba(204, 255, 0, 0.4);
+}
+
+/* Base — scoped to the landing route. Tailwind's preflight already applies the
+   margin/padding reset that the reference re-declared here. */
+html {
+    font-size: 16px;
+}
+
+.landing-page {
+    font-family: var(--font-primary);
+    background-color: #ffffff;
+    color: var(--color-text-dark);
+    /* clip, not hidden: `hidden` would turn the page into a scroll container
+       and break Lenis + position:sticky on descendants */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* index.css sets Poppins + text-wrap: balance on headings app-wide; the landing
+   design is Outfit with normal wrapping. */
+.landing-page :is(h1, h2, h3, h4, h5) {
+    font-family: var(--font-primary);
+    text-wrap: normal;
+}
+
+.site-container {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Section Header Typography */
+.section-header {
+    margin-bottom: 2.5rem;
+}
+
+.section-header.center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    font-size: clamp(2rem, 3.8vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-text-dark);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-text-gray);
+    max-width: 720px;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   1. HERO SECTION
+   ========================================================================== */
+
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg-gradient);
+    color: var(--color-text-white);
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    overflow: hidden;
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(var(--color-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Navbar */
+.navbar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    width: 100%;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--color-text-white);
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+}
+
+.brand-logo.dark-logo {
+    color: var(--color-text-dark);
+}
+
+.logo-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    background: var(--color-accent-lime);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-dot {
+    width: 8px;
+    height: 8px;
+    background: #0348f3;
+    border-radius: 50%;
+}
+
+.logo-bar {
+    width: 4px;
+    height: 14px;
+    background: #0348f3;
+    border-radius: 2px;
+    margin-left: 3px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 1.05rem;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-text-white);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent-lime);
+    border-radius: 2px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.btn-text {
+    color: var(--color-text-white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.btn-join {
+    color: var(--color-text-white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.25s ease;
+}
+
+.btn-join:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.cart-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: var(--color-accent-lime);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Hero Content */
+.hero-header {
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5.2vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-text-white);
+    margin-bottom: 1.25rem;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 680px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--color-card-bg);
+    border-radius: var(--radius-pill);
+    padding: 0.45rem 0.5rem 0.45rem 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 24, 90, 0.3);
+}
+
+.search-icon {
+    color: #94a3b8;
+    font-size: 1.15rem;
+    margin-right: 0.75rem;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    color: var(--color-text-dark);
+}
+
+.btn-search {
+    background: var(--color-accent-lime);
+    color: var(--color-text-dark);
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-search:hover {
+    background: var(--color-accent-lime-hover);
+    transform: scale(1.03);
+}
+
+.search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    display: none;
+    z-index: 100;
+    color: var(--color-text-dark);
+    text-align: left;
+}
+
+.search-results-dropdown.active {
+    display: block;
+}
+
+.dropdown-header {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-gray);
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.suggestion-item {
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    /* reset: suggestions are <button> elements so they are keyboard reachable */
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    color: var(--color-text-dark);
+    font-family: var(--font-primary);
+}
+
+.suggestion-empty {
+    color: var(--color-text-gray);
+    font-weight: 500;
+    cursor: default;
+}
+
+.suggestion-item:hover {
+    background: #f1f5f9;
+}
+
+/* Stage & Floating Accents */
+.hero-stage {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 1rem;
+    min-height: 440px;
+    z-index: 2;
+}
+
+.arch-backdrop {
+    position: absolute;
+    bottom: -60px;
+    width: 680px;
+    height: 360px;
+    background: var(--color-accent-lime);
+    border-radius: 340px 340px 0 0;
+    z-index: 1;
+}
+
+.student-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 440px;
+    max-width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.student-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    mix-blend-mode: multiply;
+}
+
+/* Floating UI Badges */
+.ui-card {
+    position: absolute;
+    background: var(--color-card-bg);
+    color: var(--color-text-dark);
+    border-radius: var(--radius-card);
+    padding: 1rem 1.35rem;
+    box-shadow: var(--shadow-card);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card-courses-info {
+    top: 18%;
+    left: 15%;
+    gap: 1rem;
+    min-width: 220px;
+}
+
+.card-icon-box {
+    width: 44px;
+    height: 44px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-bg);
+    font-size: 1.2rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.card-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-gray);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.card-progress-info {
+    top: 20%;
+    right: 14%;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 200px;
+    padding: 1.1rem 1.4rem;
+}
+
+.card-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-gray);
+}
+
+.progress-val-row {
+    margin: 0.35rem 0 0.5rem 0;
+}
+
+.progress-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    /* reset: the track is a <button> so it is keyboard reachable */
+    display: block;
+    padding: 0;
+    border: none;
+}
+
+.progress-fill {
+    display: block;
+    height: 100%;
+    background: var(--color-accent-lime);
+    border-radius: 6px;
+    transition: width 0.7s ease-out;
+}
+
+.progress-number-pop {
+    animation: progressPop 0.3s ease-out;
+}
+
+@keyframes progressPop {
+    0% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.card-happy-students {
+    bottom: 8%;
+    left: 10%;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 230px;
+}
+
+.card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+
+.rating-box {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.rating-count {
+    color: var(--color-text-gray);
+    font-weight: 500;
+}
+
+.star-icon {
+    color: #f59e0b;
+    font-size: 0.8rem;
+}
+
+.avatar-stack {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-strip-img {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--color-card-bg);
+}
+
+.avatar-badge {
+    background: var(--color-accent-lime);
+    color: var(--color-text-dark);
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-pill);
+    margin-left: 0.4rem;
+}
+
+/* 3D Shapes */
+
+/* The design renders the ornaments as transparent 3D images placed at fixed
+   offsets inside a 1440px-wide frame, several bleeding off the edge. The frame
+   matches that width and lets the percentage offsets carry the composition
+   down to narrower viewports, with overflow clipped at the section edge. */
+.ornament-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.ornament {
+    position: absolute;
+    max-width: none;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.14));
+}
+
+/* Below the design width the ornaments shrink proportionally so the fixed px
+   sizes stop crowding the content, and drift more gently. */
+@media (max-width: 1024px) {
+    .ornament {
+        transform-origin: center;
+    }
+}
+
+.floating-accent {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.2));
+}
+
+/* Float Keyframes */
+@keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-16px); } }
+@keyframes floatReverse { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(16px); } }
+
+/* Ornaments driven by the hero scroll parallax let GSAP own `transform`, so
+   their idle float keyframes are suppressed to avoid both writing the same
+   property on every frame. */
+.ornament[data-parallax] { animation: none; }
+
+.float-anim-1 { animation: floatSlow 6s ease-in-out infinite; }
+.float-anim-2 { animation: floatReverse 7s ease-in-out infinite; }
+.float-anim-3 { animation: floatSlow 5.5s ease-in-out infinite 1s; }
+.float-badge-1 { animation: floatSlow 6s ease-in-out infinite 0.5s; }
+.float-badge-2 { animation: floatReverse 6.5s ease-in-out infinite 1s; }
+.float-badge-3 { animation: floatSlow 5s ease-in-out infinite 1.5s; }
+
+/* ==========================================================================
+   2. CLIENT LOGOS BANNER
+   ========================================================================== */
+
+.logos-section {
+    padding: 3.5rem 0;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.logo-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.logo-item {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    letter-spacing: -0.02em;
+}
+
+.logo-item i {
+    font-size: 1.6rem;
+}
+
+/* ==========================================================================
+   3. DISCOVER COURSES & CATEGORY PILLS
+   ========================================================================== */
+
+.discover-section {
+    padding: 5rem 0;
+    background: #ffffff;
+}
+
+/* Sizes measured from the design: 43px pill height, 24px radius, 16px
+   horizontal padding, 16px row gap, 16px/500 text (Figma `21:33`-`21:70`). */
+.category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1086px;
+    margin: 0 auto 3.5rem auto;
+}
+
+.category-pill {
+    background: #f5f5f5;
+    color: #4b4c53;
+    border: none;
+    height: 43px;
+    padding: 0 1rem;
+    border-radius: 24px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.category-pill:hover {
+    background: #ececec;
+    color: var(--color-text-dark);
+}
+
+.category-pill.active {
+    background: #d4fa21;
+    color: #242528;
+    font-weight: 500;
+}
+
+/* "+ More" is a bare text link in the design (Figma `21:73`) — no pill, no
+   fill — so it stays in the row without inheriting the chip treatment. */
+.category-more {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    color: #003be3;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.category-more:hover,
+.category-more:focus-visible {
+    opacity: 0.7;
+}
+
+.category-pill.popping {
+    animation: pillPop 0.3s ease-out;
+}
+
+@keyframes pillPop {
+    0% { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
+
+/* Course Cards Grid */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* the design renders six cards as two stacked 3-up rows */
+.course-grid-secondary {
+    margin-top: 2rem;
+}
+
+.course-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid var(--color-border-light);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 45px -12px rgba(0, 18, 70, 0.12);
+}
+
+.course-thumb {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.course-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumb-badges {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.thumb-badges span {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    color: #1e293b;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+}
+
+.course-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.title-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.course-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    line-height: 1.3;
+}
+
+.course-rating {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.course-rating i {
+    color: #94a3b8;
+    font-size: 0.75rem;
+}
+
+.course-author {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin-bottom: 1.25rem;
+}
+
+.author-name {
+    color: var(--color-bg);
+    font-weight: 600;
+}
+
+.course-bottom-row {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.level-and-avatars {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.level-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.mini-avatar-stack {
+    display: flex;
+    align-items: center;
+}
+
+.mini-avatar-stack img {
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* The portraits overlap so the strip reads as a stack rather than a row. */
+.mini-avatar-stack img + img,
+.avatar-strip-img + .avatar-strip-img {
+    margin-left: -12px;
+}
+
+.mini-badge {
+    background: var(--color-accent-lime);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.45rem;
+    border-radius: 10px;
+    margin-left: -6px;
+}
+
+.course-price {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-bg);
+}
+
+.course-price span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+/* ==========================================================================
+   4. DIVERSE LEARNING PATHS
+   ========================================================================== */
+
+.paths-section {
+    padding: 5rem 0;
+    background: #f8fafc;
+}
+
+.path-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+}
+
+.path-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid var(--color-border-light);
+    padding: 2.2rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.path-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+}
+
+.path-icon-circle {
+    width: 64px;
+    height: 64px;
+    background: var(--color-accent-lime);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-text-dark);
+    margin-bottom: 1.25rem;
+}
+
+.path-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+/* ==========================================================================
+   5 & 6. FEATURE BLOCK SECTIONS
+   ========================================================================== */
+
+.feature-block-section {
+    padding: 6rem 0;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.feature-row {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+}
+
+.feature-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.feature-col-text {
+    flex: 1;
+}
+
+.feature-heading {
+    font-size: clamp(2.2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-text-dark);
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.feature-desc {
+    font-size: 1.05rem;
+    color: var(--color-text-gray);
+    line-height: 1.65;
+    margin-bottom: 2rem;
+}
+
+.stats-counter-row {
+    display: flex;
+    gap: 3.5rem;
+}
+
+.stat-num {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-bg);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+
+.stat-lbl {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-gray);
+}
+
+.check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.check-list li {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.check-list li i {
+    color: var(--color-bg);
+    font-size: 1.25rem;
+}
+
+/* Feature Showcase Box */
+.feature-col-graphic {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.showcase-box {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.showcase-arch-bg {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(204, 255, 0, 0.4) 0%, rgba(204, 255, 0, 0) 70%);
+    border-radius: 50%;
+}
+
+.showcase-soft-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(3, 72, 243, 0.15) 0%, rgba(204, 255, 0, 0.2) 60%, transparent 70%);
+    border-radius: 50%;
+}
+
+.showcase-student-img, .showcase-creator-img {
+    position: relative;
+    z-index: 2;
+    height: 440px;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.showcase-badge-card1 {
+    top: 5%;
+    left: -5%;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+}
+
+.badge-mini-thumb {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.badge-mini-title { font-size: 0.85rem; font-weight: 700; }
+.badge-mini-author { font-size: 0.7rem; color: #94a3b8; display: block; }
+.badge-mini-price { font-size: 0.8rem; font-weight: 800; color: var(--color-bg); }
+
+.showcase-badge-card2 {
+    top: 15%;
+    right: -5%;
+}
+
+.showcase-badge-card3 {
+    bottom: 5%;
+    right: -2%;
+}
+
+.showcase-avatar-stack {
+    margin-top: 6px;
+}
+
+/* The single 3D ring that overlaps each showcase box. Both are the same
+   render at the same 216px size measured from Figma (`34:982` / `34:1007`);
+   the growth box sits it top-right and the creator box bottom-left. */
+.showcase-ornament {
+    position: absolute;
+    width: 216px;
+    height: 216px;
+    max-width: none;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.14));
+}
+
+.showcase-ornament-1 { top: 12%; right: -6%; }
+
+.showcase-ornament-2 { bottom: 8%; left: -6%; }
+
+/* Revenue Badges */
+.revenue-badge {
+    position: absolute;
+    background: var(--color-bg);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 0.85rem 1.25rem;
+    box-shadow: 0 15px 30px rgba(3, 72, 243, 0.3);
+    z-index: 10;
+}
+
+.rev-badge-1 {
+    top: 15%;
+    left: -10%;
+    min-width: 150px;
+}
+
+.rev-badge-2 {
+    top: 45%;
+    left: -10%;
+    min-width: 150px;
+}
+
+.rev-label { font-size: 0.7rem; color: rgba(255,255,255,0.8); display: block; }
+.rev-date { font-size: 0.65rem; color: rgba(255,255,255,0.6); display: block; }
+.rev-amount { font-size: 1.4rem; font-weight: 800; margin-top: 4px; display: block; }
+
+.rev-bar {
+    height: 4px;
+    background: var(--color-accent-lime);
+    border-radius: 2px;
+    margin-top: 6px;
+    width: 70%;
+}
+
+.rev-pill {
+    background: var(--color-accent-lime);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.15rem 0.4rem;
+    border-radius: 6px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* ==========================================================================
+   7. CREATOR CTA BANNER
+   ========================================================================== */
+
+.creator-cta-banner {
+    position: relative;
+    background: var(--color-bg-gradient);
+    color: #ffffff;
+    padding: 6rem 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.banner-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+}
+
+.banner-desc {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    margin-bottom: 2.5rem;
+}
+
+.btn-creator-cta {
+    background: var(--color-accent-lime);
+    color: var(--color-text-dark);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    padding: 0.95rem 2.5rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn);
+    transition: transform 0.25s ease;
+}
+
+.btn-creator-cta:hover {
+    transform: scale(1.04);
+}
+
+/* ==========================================================================
+   8. COMMUNITY TESTIMONIALS
+   ========================================================================== */
+
+.testimonials-section {
+    position: relative;
+    padding: 6rem 0;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.mesh-glow-bg {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(204, 255, 0, 0.25) 0%, rgba(3, 72, 243, 0.08) 50%, transparent 70%);
+    pointer-events: none;
+}
+
+.testimonials-header-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.testi-title {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text-dark);
+    line-height: 1.15;
+    flex: 1;
+}
+
+.testi-desc {
+    font-size: 1rem;
+    color: var(--color-text-gray);
+    line-height: 1.6;
+    flex: 1;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 2rem;
+    border: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.user-avatar-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    font-weight: 800;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.user-role {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-bg);
+}
+
+.user-quote {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   9. FOOTER & NEWSLETTER
+   ========================================================================== */
+
+.site-footer {
+    background: #ffffff;
+    padding: 5rem 0 2rem 0;
+    border-top: 1px solid var(--color-border-light);
+}
+
+.footer-top-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.newsletter-col {
+    max-width: 420px;
+}
+
+.newsletter-text {
+    font-size: 0.95rem;
+    color: var(--color-text-gray);
+    margin: 1.25rem 0 1.5rem 0;
+    line-height: 1.5;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    background: #ffffff;
+    border: 1px solid var(--color-border-light);
+    padding: 0.35rem 0.35rem 0.35rem 1.2rem;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.newsletter-form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+}
+
+.newsletter-disclaimer {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+    line-height: 1.4;
+}
+
+.footer-links-wrapper {
+    display: flex;
+    gap: 4rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.footer-col a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+    color: var(--color-bg);
+}
+
+.footer-bottom-bar {
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.legal-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.legal-links a {
+    text-decoration: none;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.legal-links a:hover {
+    color: var(--color-text-dark);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+/* Navbar collapses below this width. Added by the port: the reference never
+   made the nav responsive, so the mobile toggle was unreachable. */
+@media (max-width: 900px) {
+    .mobile-toggle {
+        display: block;
+    }
+
+    .nav-actions .btn-text,
+    .nav-actions .btn-join {
+        display: none;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 0.75rem);
+        right: 0;
+        z-index: 20;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        min-width: 210px;
+        padding: 1.35rem 1.5rem;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav-links.mobile-open {
+        display: flex;
+    }
+
+    .nav-link {
+        color: #0f172a;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--color-bg);
+    }
+}
+
+@media (max-width: 1024px) {
+    .course-grid, .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    .path-grid { grid-template-columns: repeat(3, 1fr); }
+    .feature-row { flex-direction: column; gap: 3rem; }
+    .feature-row.reverse { flex-direction: column; }
+    .testimonials-header-row { flex-direction: column; gap: 1rem; }
+    .footer-top-row { flex-direction: column; gap: 3rem; }
+    .stats-counter-row { gap: 2.5rem; }
+}
+
+@media (max-width: 640px) {
+    .course-grid, .testimonials-grid, .path-grid { grid-template-columns: 1fr; }
+    .footer-links-wrapper { flex-direction: column; gap: 2rem; }
+    .footer-bottom-bar { flex-direction: column; gap: 1rem; text-align: center; }
+
+    .site-container { padding: 0 1.25rem; }
+
+    /* The hero stage and showcase are fixed-pixel compositions; scale them down
+       so they stay inside the viewport instead of being clipped. */
+    .hero-stage { min-height: 340px; }
+    .arch-backdrop { width: 100%; height: 240px; bottom: -30px; }
+    .student-wrapper { width: 290px; }
+    .student-img { max-height: 300px; width: auto; object-fit: contain; margin: 0 auto; }
+    .card-courses-info { top: 8%; left: 0; min-width: 0; }
+    .card-progress-info { top: 46%; right: 0; min-width: 165px; }
+    .card-happy-students { display: none; }
+
+    .search-bar { padding-left: 1rem; }
+    .btn-search { padding: 0.85rem 1.25rem; }
+
+    .showcase-box { height: 380px; }
+    .showcase-student-img, .showcase-creator-img { height: 300px; }
+    .showcase-arch-bg { width: 280px; height: 280px; }
+    .showcase-soft-glow { width: 300px; height: 300px; }
+    .showcase-badge-card1, .showcase-badge-card2, .showcase-badge-card3 { display: none; }
+    .rev-badge-1, .rev-badge-2 { left: 0; }
+    .banner-desc { margin-bottom: 2rem; }
+}
+
+/* Honour the OS reduced-motion setting: the float/parallax motion is decorative. */
+@media (prefers-reduced-motion: reduce) {
+    .landing-page [class*='float-anim'],
+    .landing-page [class*='float-badge'] {
+        animation: none !important;
+    }
+}
+

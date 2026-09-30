@@ -1,29 +1,42 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  --font-display: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-brand: 'Clash Display', 'Poppins', ui-sans-serif, sans-serif;
 
-  --color-ink-950: #05070f;
-  --color-ink-900: #070b14;
-  --color-ink-800: #0d1320;
-  --color-ink-700: #151d2e;
-  --color-ink-600: #212c42;
-  --color-ink-500: #3a4762;
-  --color-ink-400: #6b7a99;
-  --color-ink-300: #9aa7c2;
-  --color-ink-200: #c7d0e2;
-  --color-ink-100: #e8edf7;
+  /* Brand */
+  --color-blue-600: #003be2;
+  --color-lime-300: #cbfe01;
+  --color-lime-400: #d4fb20;
+  --color-lime-500: #c1e338;
 
-  --color-brand-300: #8ab4ff;
-  --color-brand-400: #5b93ff;
-  --color-brand-500: #3b74f6;
-  --color-brand-600: #2559e0;
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-2: #fafafa;
+  --color-surface-3: #f6f6f6;
+  --color-surface-4: #f5f5f6;
+  --color-surface-5: #e5e6e8;
 
-  --color-accent-400: #6ee7c8;
-  --color-accent-500: #34d3a8;
+  /* Text */
+  --color-ink: #242528;
+  --color-ink-deep: #040819;
+  --color-body: #4b4c53;
+  --color-body-2: #4f4f4f;
+  --color-muted: #82868e;
+  --color-faint: #888888;
+  --color-violet: #7f30f7;
+  --color-plum: #300b6a;
 
-  --radius-4xl: 2rem;
+  /* Type scale, straight from the Figma style guide */
+  --text-h1: 4.5rem;
+  --text-h1--line-height: 1.2;
+  --text-h2: 2.75rem;
+  --text-h2--line-height: 1.2;
+  --text-h3: 2.25rem;
+  --text-h3--line-height: 1.2;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.2;
 }
 
 @layer base {
@@ -33,26 +46,78 @@
   }
 
   body {
-    @apply bg-ink-900 text-ink-100 font-sans;
+    @apply bg-surface font-body text-ink;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    text-wrap: balance;
   }
 
   ::selection {
-    @apply bg-brand-500/40 text-white;
+    @apply bg-blue-600 text-white;
   }
 }
 
 @layer components {
+  /* 1440 page with 120px margins => 1200px content, 40px gutter */
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1200px] px-6 lg:px-0;
   }
 
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-ink-600 bg-ink-800/80 px-3 py-1 text-xs font-medium tracking-wide text-ink-300;
+  .card {
+    @apply rounded-3xl bg-surface;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-white via-ink-100 to-brand-300 bg-clip-text text-transparent;
+  .pill {
+    @apply inline-flex items-center justify-center rounded-full;
   }
+
+  .btn-lime {
+    @apply inline-flex items-center justify-center rounded-full bg-lime-400 px-6 py-[11px] font-body text-lg font-medium text-ink transition-colors hover:bg-lime-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2;
+  }
+
+  .btn-blue {
+    @apply inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-[11px] font-body text-lg font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600;
+  }
+
+  .field-input {
+    @apply h-[52px] w-full rounded-xl border border-transparent bg-surface px-4 font-body text-lg text-ink outline-none transition-colors placeholder:text-muted focus:border-blue-600;
+  }
+}
+
+/* The 12-column guide grid overlaid on the blue sections in the design */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+  background-size: 120px 128px;
+}
+
+/* Lenis smooth scroll. The library puts its state classes on <html>, so these
+   have to be global even though only the landing page starts Lenis. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -62,6 +127,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
